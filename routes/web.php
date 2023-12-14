@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,9 @@ Route::get('/tasks', function () {
     ]);
 })->name('tasks.index');
 
+// 建新增頁面的route
+Route::view('/tasks/create' , 'create');
+
 Route::get('/tasks/{id}' , function($id) {
   
    // 顯示
@@ -33,6 +37,7 @@ Route::get('/tasks/{id}' , function($id) {
    return view('show' , ['task' =>\App\Models\Task::findOrFail($id)]);
 })->name('tasks.show');
 
-Route::fallback(function() {
-    return "404-123";
-});
+// 新增頁面的post
+Route::post('/tasks' , function(Request $request) {
+    dd($request->all());
+})->name('tasks.store');
