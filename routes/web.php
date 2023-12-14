@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,7 +47,7 @@ $tasks = [
     null,
     false,
     '2023-03-02 12:00:00',
-    '2023-03-02 12:00:00'
+    '2023-03-03 12:00:00'
   ),
   new Task(
     3,
@@ -78,8 +79,16 @@ Route::get('/tasks', function () use ($tasks) {
     ]);
 })->name('tasks.index');
 
-Route::get('/{id}' , function($id) use ($tasks) {
-  
+Route::get('/tasks/{id}' , function($id) use ($tasks) {
+   $task = collect($tasks)->firstWhere('id' , $id);
+// 此firstWhere方法傳回具有給定鍵/值對的集合中的第一個元素
+   if(!$task) {
+    abort(Response::HTTP_NOT_FOUND);
+    // 此abort函數拋出一個 HTTP 異常，該異常將由異常處理程序呈現
+   }
+
+   //  顯示 
+   return view('show' , ['task' => $task]);
 })->name('tasks.show');
 
 Route::fallback(function() {
