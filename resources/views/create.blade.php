@@ -3,6 +3,9 @@
 @section('title' , 'Add Task')
 
 @section('content')
+
+    {{-- 顯示錯誤 --}}
+    {{-- {{ $errors }} --}}
     
     <form action="{{ route('tasks.store') }}" method="post">
         {{-- 防止惡意攻擊 --}}
