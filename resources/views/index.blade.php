@@ -4,6 +4,9 @@
 
 @section('content')    
 
+<div>
+    <a href="{{ route('tasks.create')}}">Add Task!</a>
+</div>
 
     @forelse ($tasks as $task)
     <div>
@@ -15,5 +18,8 @@
     <div>There are no tasks!</div>
     @endforelse
 
+    @if ($task->count())
+        {{ $tasks->links() }}
+    @endif
 
 @endsection
