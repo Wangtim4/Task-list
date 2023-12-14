@@ -1,0 +1,61 @@
+@extends('layouts.app')
+
+{{-- 盼東新增還是修改 --}}
+@section('title', isset($task) ? 'Edit Task' : 'Add Task')
+
+{{-- 加入樣式 --}}
+@section('styles')
+    <style>
+        .error-message{
+            color: red;
+            font-size: 1.5rem;        }
+    </style>
+@endsection
+
+@section('content')
+
+    {{-- 顯示錯誤 --}}
+    {{-- {{ $errors }} --}}
+
+    <form action="{{ isset($task) ? route('tasks.update' , ['task' => $task->id]) : route('tasks.store') }}" method="post">
+        {{-- 防止惡意攻擊 --}}
+        @csrf
+        @isset($task)
+            @method('PUT')
+        @endisset
+        <div>
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" value="{{$task->title ?? old('title') }}">
+            @error('title')
+                <p class ="error-message">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="description">Description</label>
+            <textarea name="description" id="description" rows="5">{{ $task->description ?? old('description') }}</textarea>
+            @error('description')
+                <p class ="error-message">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="long_description">Long Description</label>
+            <textarea name="long_description" id="long_description" rows="10">{{ $task->long_description ?? old('long_description') }}</textarea>
+
+        </div>
+        @error('long_description')
+            <p class ="error-message">{{ $message }}</p>
+        @enderror
+        <div>
+            <button type="submit">
+                @isset($task)
+                    Updated Task
+                @else
+                    Add Task
+                @endisset
+            </button>
+        </div>
+    </form>
+
+@endsection
