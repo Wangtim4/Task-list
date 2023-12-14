@@ -16,7 +16,7 @@
     {{-- 顯示錯誤 --}}
     {{-- {{ $errors }} --}}
 
-    <form action="{{ route('tasks.update' , ['id' => $task->id]) }}" method="POST">
+    <form action="{{ route('tasks.update' , ['task' => $task->id]) }}" method="POST">
         {{-- 防止惡意攻擊 --}}
         @csrf
         {{-- 方法更改 --}}
